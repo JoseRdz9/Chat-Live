@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidebar Example</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/46a5e4490b.js" crossorigin="anonymous"></script>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+
+<style>
+    .content {
+        transition: margin-left 0.5s;
+        padding: 16px;
+    }
+    .bg-dark {
+        background-color: #343a40!important;
+    }
+    .sidebar {
+        height: 100%;
+        width: 67px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        padding-top: 20px;
+        display: grid;
+        place-items: center;
+    }
+    .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+    }
+    .sidebar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#messages"><i class="fa-regular fa-message"></i></a>
+        <a href="#contacts"><i class="fi fi-rs-users-alt"></i></a>
+        <a href="#notifications"><i class="fi fi-rs-bell"></i></a>
+        <a href="#dark-mode"><i class="fi fi-rs-moon-stars"></i></a>
+    </div>
+    <div class="content">
+        <div id="messages">
+            <p>Contenido de la sección de mensajes...</p>
+        </div>
+        <div id="contacts" style="display: none;">
+            <h2>Contactos</h2>
+            <p>Contenido de la sección de contactos...</p>
+        </div>
+        <div id="notifications" style="display: none;">
+            <h2>Notificaciones</h2>
+            <p>Contenido de la sección de notificaciones...</p>
+        </div>
+        <div id="dark-mode" style="display: none;">
+            <h2>Modo Oscuro</h2>
+            <p>Contenido de la sección de modo oscuro...</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.sidebar a');
+            const contentSections = document.querySelectorAll('.content > div');
+
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    contentSections.forEach(section => {
+                        if (section.id === target) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
