@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickTalk</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/46a5e4490b.js" crossorigin="anonymous"></script>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+<link rel="stylesheet" href="css/estilochat.css">
+<link rel="icon" href="img/icons8-burbuja-de-diálogo-con-puntos-50.png" />
+
+
+
+</head>
+
+<body>
+    <div class="row">
+        <div class="sidebar">
+            <a href="#messages"><i class="fa-regular fa-message"></i></a>
+            <a href="#contacts"><i class="fi fi-rs-users-alt"></i></a>
+            <a href="#Configuracion"><i class="fi fi-rs-admin-alt"></i></a>
+            <a href="#dark-mode"><i class="fi fi-rs-moon-stars"></i></a>
+        </div>
+        <div class="content">
+            <div id="messages">
+                <h1>Chats</h1>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="css/monagullo.jpg" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                        <h5 class="card-title">Monaguillo</h5>
+                        <p class="card-text">Tas mal vatp.....</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 1 segs ago</small></p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="css/raymunda.jpg" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Raymunda</h5>
+                          <p class="card-text">Ando perdiendo la batalla bro</p>
+                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="css/sergio.jpg" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Sergio</h5>
+                          <p class="card-text">Ontas?</p>
+                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="css/chiriwuiri.jpg" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Chiriwuiri</h5>
+                          <p class="card-text">Que mi lala.</p>
+                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+            <div id="contacts" style="display: none;">
+                <h2>Contactos</h2>
+                <p>Contenido de la sección de contactos...</p>
+            </div>
+            <div id="Configuracion" style="display: none;">
+                <h2>Configuracion</h2>
+                <p>Contenido de la sección de Configuracion...</p>
+            </div>
+            <button onclick="cambiarModo()"><i class="fi fi-rs-moon-stars"></i></button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function cambiarModo() {
+        var body = document.body;
+        body.classList.toggle("dark-mode");
+    }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.sidebar a');
+            const contentSections = document.querySelectorAll('.content > div');
+
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    contentSections.forEach(section => {
+                        if (section.id === target) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
