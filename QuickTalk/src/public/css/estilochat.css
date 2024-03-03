@@ -1,6 +1,22 @@
 .row{
     
 }
+
+body[data-bs-theme="dark"] {
+    background-color: #333;
+    color: #fff;
+}
+
+.sidebar[data-bs-theme="dark"] {
+    background-color: #222;
+    color: #fff;
+}
+
+.content[data-bs-theme="dark"] {
+    background-color: #444;
+    color: #fff;
+}
+
 .content {
     transition: margin-left 0.5s;
     padding: 16px;
@@ -25,7 +41,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #343a40;
+    background-color: #00a2ff;
     padding-top: 20px;
     display: grid;
     place-items: center;

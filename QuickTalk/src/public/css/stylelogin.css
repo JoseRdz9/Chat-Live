@@ -8,6 +8,7 @@
 }
 
 body{
+    background: #00a2ff;
     background-color: #000000;
     background: linear-gradient(to right, #ffffff, #c9d6ff);
     display: flex;
@@ -15,6 +16,31 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden;
+}
+
+.container1{
+    padding: 20px;
+    background-color: #fff;
+    position: relative;
+    overflow: hidden;
+    width: 1490px;
+    bottom: 86px;
+    text-align: center;
+   
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px 20px 50px;
+    margin: 0;
+    height: 100%;
+}
+/* css para el logotipo */
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-top: 6px;
 }
 
 .container{
