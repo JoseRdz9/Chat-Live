@@ -1,0 +1,60 @@
+.row{
+    
+}
+
+body[data-bs-theme="dark"] {
+    background-color: #333;
+    color: #fff;
+}
+
+.sidebar[data-bs-theme="dark"] {
+    background-color: #222;
+    color: #fff;
+}
+
+.content[data-bs-theme="dark"] {
+    background-color: #444;
+    color: #fff;
+}
+
+.content {
+    transition: margin-left 0.5s;
+    padding: 16px;
+    margin-left: 80px;
+    background: #F7F4F4;
+    width: 30%;
+    height: 100%;
+    position: fixed;
+    overflow-y: scroll;
+    
+}
+.messages{
+    overflow-y: scroll;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}
+.sidebar {
+    position: relative;
+    height: 100%;
+    width: 67px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #00a2ff;
+    padding-top: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+}
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+}
+.sidebar a:hover {
+    background-color: #ddd;
+    color: black;
+}
