@@ -13,7 +13,6 @@ if (!isset($_SESSION['unique_id'])) {
   <div class="row">
     <div class="sidebar" data-bs-theme="light">
       <a href="#messages"><i class="fa-regular fa-message"></i></a>
-      <a href="#contacts"><i class="fi fi-rs-users-alt"></i></a>
       <a href="#Configuracion"><i class="fi fi-rs-admin-alt"></i></a>
       <button onclick="cambiarmodo()" class="btn rounded-fill"><i id="darkmode" class="fi fi-rs-moon-stars" style="color: white;"></i></button>
     </div>
@@ -36,19 +35,18 @@ if (!isset($_SESSION['unique_id'])) {
                 while($row = mysqli_fetch_assoc($sql2)){
                   // Mostrar los detalles de cada usuario
                   echo '
-                  <div class="card mb-3 user-card" data-user-id="'.$row['unique_id'].'">
-                  <div class="row g-0">
-                      <div class="col-md-4">
-                          <img src="php/images/'.$row['img'].'" class="img-fluid" alt="">
-                      </div>
-                      <div class="col-md-8">
-                          <div class="card-body">
-                              <h5 class="card-title">'.$row['fname'].' '.$row['lname'].'</h5>
-                              <p class="card-text">'.$row['status'].'</p>
-                          </div>
-                      </div>
+                  <div class="overflow-auto h-4/5 user-card" data-user-id="'.$row['unique_id'].'">
+                    <div class="flex  mb-4 p-4 rounded">
+                        <img src="php/images/'.$row['img'].'" class="self-start rounded-full w-12 mr-4">
+                        <div class="w-full overflow-hidden">
+                            <div class="flex mb-1">
+                                <p class="font-medium flex-grow">'.$row['fname'].' '.$row['lname'].'</p>
+                                <small class="text-gray-500">09:55 am</small>
+                            </div>
+                            <small class="overflow-ellipsis overflow-hidden block whitespace-nowrap text-gray-500"> '.$row['status'].'</small>
+                        </div>
+                    </div>
                   </div>
-              </div>
               ';
                 }
 
@@ -59,13 +57,6 @@ if (!isset($_SESSION['unique_id'])) {
             </div>
           </section>
         </div>
-
-      </div>
-    
-
-      <div id="contacts" style="display: none;">
-        <h2>Contactos</h2>
-        <p>Contenido de la sección de contactos...</p>
       </div>
       <div id="Configuracion" style="display: none;">
         <h2>Mi cuenta</h2>
@@ -87,7 +78,7 @@ if (!isset($_SESSION['unique_id'])) {
 
     <div id="chatcont" class="wrapper" style="display: none;">
       <section class="chat-area">
-        <header>
+        <header class="border-b">
         <?php
           if (isset($_GET['user_id'])) {
             $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
@@ -100,8 +91,7 @@ if (!isset($_SESSION['unique_id'])) {
             }
           }
         ?>
-         
-          <a href="QuickTalk.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="" class="back-icon"><i class="fas fa-arrow-left"></i></a>
           <img src="php/images/<?php echo $row['img']; ?>" alt="">
           <div class="details">
             <span><?php echo $row['fname'] . " " . $row['lname'] ?></span>

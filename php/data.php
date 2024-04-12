@@ -16,18 +16,16 @@ while ($row = mysqli_fetch_assoc($query)) {
     ($outgoing_id == $row['unique_id']) ? $hid_me = "hide" : $hid_me = "";
 
     $output = '
-                <div class="card mb-3 user-card" style="max-width: 540px;" data-user-id="'.$row['unique_id'].'">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                        <img src="php/images/'.$row['img'].'" class="img-fluid rounded-start" alt="">
-                        </div>
-                        <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">'.$row['fname'].' '.$row['lname'].'</h5>
-                            <p class="card-text">'.$row['status'].'</p>
-                        </div>
-                    </div>
+    <div class="overflow-auto h-4/5 user-card" data-user-id="'.$row['unique_id'].'">
+        <div class="flex  mb-4 p-4 rounded">
+            <img src="php/images/'.$row['img'].'" class="self-start rounded-full w-12 mr-4">
+            <div class="w-full overflow-hidden">
+                <div class="flex mb-1">
+                    <p class="font-medium flex-grow">'.$row['fname'].' '.$row['lname'].'</p>
+                    <small class="text-gray-500">09:55 am</small>
                 </div>
-                </div>'
-                ;
+                <small class="overflow-ellipsis overflow-hidden block whitespace-nowrap text-gray-500"> '.$row['status'].'</small>
+            </div>
+        </div>
+    </div>';
 }

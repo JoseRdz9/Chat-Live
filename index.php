@@ -8,6 +8,7 @@ if (isset($_SESSION['unique_id'])) {
 <?php include_once "header.php"; ?>
 
 <body>
+<?php include 'navbar.html'?>
   <div class="container" id="container">
     <section class="form signup">
       <div class="form-container sign-up">
@@ -25,7 +26,7 @@ if (isset($_SESSION['unique_id'])) {
             <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
           </div>
           <div class="field button">
-            <input id="signup" type="submit" name="submit" value="Acceder al Chat">
+            <button id="signup" type="submit" name="submit">Registrarse</buton>
           </div>
         </form>
       </div>
@@ -41,7 +42,7 @@ if (isset($_SESSION['unique_id'])) {
             <input type="password" name="password" placeholder="Contraseña">
             <a href="#">¿Olvidaste tu contraseña?</a>
             <div class="field button">
-              <input id="signin" type="submit" name="submit" value="Chatear">
+              <button id="signin" type="submit" name="submit">Iniciar</button>
             </div>
         </form>
       </div>

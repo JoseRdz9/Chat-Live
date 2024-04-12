@@ -8,5 +8,6 @@
   <title>QuickTalk</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/stylelogin.css">
+  <link rel="stylesheet" href="css/nabvars.css">
   <link rel="icon" href="" />
 </head>

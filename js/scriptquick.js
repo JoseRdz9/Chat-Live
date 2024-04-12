@@ -29,7 +29,22 @@ const checkSystemTheme = () => {
 //Hcae la verificacion al cargar la pagina que tema tiene del sistema
 window.onload = checkSystemTheme;
 
+//Funcion de icono regresar
+document.querySelector('.back-icon').addEventListener('click', function(event) {
+  event.preventDefault(); // Evitar la acción predeterminada del enlace
+  document.getElementById('chatcont').style.display = 'none'; // Ocultar el chat
+});
 
+const userCards = document.querySelectorAll('.user-card');
+userCards.forEach(card => {
+  card.addEventListener('click', function() {
+      const userId = this.getAttribute('data-user-id');
+      document.getElementById('chatcont').style.display = 'block'; // Mostrar el chat
+  });
+});
+
+
+// Funcionalidad de sidebar
 document.addEventListener('DOMContentLoaded', function() {
   const links = document.querySelectorAll('.sidebar a','.row');
   const contentSections = document.querySelectorAll('.content > div');
