@@ -46,20 +46,24 @@ userCards.forEach(card => {
 
 // Funcionalidad de sidebar
 document.addEventListener('DOMContentLoaded', function() {
-  const links = document.querySelectorAll('.sidebar a','.row');
+  const links = document.querySelectorAll('.sidebar a');
   const contentSections = document.querySelectorAll('.content > div');
 
   links.forEach(link => {
     link.addEventListener('click', function(event) {
-      event.preventDefault();
+      // Comprobar si el enlace apunta a una sección de la misma página
+      if (this.getAttribute('href').startsWith('#')) {
+        event.preventDefault();
         const target = this.getAttribute('href').substring(1);
         contentSections.forEach(section => {
-        if (section.id === target) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
+          if (section.id === target) {
+            section.style.display = 'block';
+          } else {
+            section.style.display = 'none';
+          }
+        });
+      }
+      // Si el enlace apunta a una página externa, deja que el navegador maneje la redirección
     });
   });
 });

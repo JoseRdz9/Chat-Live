@@ -114,9 +114,6 @@ body{
 
 
 /* Users List CSS Start */
-.users{
-  
-}
 .users header,
 .users-list a{
   display: flex;

@@ -8,7 +8,6 @@ if (isset($_SESSION['unique_id'])) {
 <?php include_once "header.php"; ?>
 
 <body>
-<?php include 'navbar.html'?>
   <div class="container" id="container">
     <section class="form signup">
       <div class="form-container sign-up">
@@ -33,7 +32,7 @@ if (isset($_SESSION['unique_id'])) {
   
     <section class="form login">
       <div class="form-container sign-in">
-        <form action="#" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="QuickTalk.php" method="POST" enctype="multipart/form-data" autocomplete="off">
           <div class="error-text"></div>
             <h1>Iniciar sesion</h1>
             <div class="social-icons"></div>
@@ -57,7 +56,6 @@ if (isset($_SESSION['unique_id'])) {
         <div class="toggle-panel toggle-right">
            <h1>Hola!</h1>
             <p>Regístrese con sus datos personales para utilizar todas las funciones del sitio:</p>
-          <button class="hidden" id="register">Registrate</button>
         </div>
       </div>
     </div>

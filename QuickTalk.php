@@ -12,9 +12,36 @@ if (!isset($_SESSION['unique_id'])) {
 <body data-bs-theme="light">
   <div class="row">
     <div class="sidebar" data-bs-theme="light">
-      <a href="#messages"><i class="fa-regular fa-message"></i></a>
-      <a href="#Configuracion"><i class="fi fi-rs-admin-alt"></i></a>
-      <button onclick="cambiarmodo()" class="btn rounded-fill"><i id="darkmode" class="fi fi-rs-moon-stars" style="color: white;"></i></button>
+      <!-- pone botón clientes o agentes dependiendo del rol del usuario -->
+        <?php
+        include 'php/conn-vistas.php';
+
+        // Asegúrate de que el usuario esté autenticado y obtén su rol
+        if (isset($_SESSION['unique_id'])) {
+            $user_id = $_SESSION['unique_id'];
+            $sql = "SELECT * FROM users WHERE unique_id = '$user_id'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($result);
+
+            // Verifica el rol del usuario y muestra elementos según el rol
+            if ($row["rol"] == '0') {
+              // Código para usuarios normales
+              echo "<a href=\"#messages\"><i class=\"fa-regular fa-message\"></i></a>";
+              echo "<a href=\"#Configuracion\"><i class=\"fi fi-rs-admin-alt\"></i></a>";
+              echo "<button onclick=\"cambiarmodo()\" class=\"btn rounded-fill\"><i id=\"darkmode\" class=\"fi fi-rs-moon-stars\" style=\"color: white;\"></i></button>";
+            } elseif ($row["rol"] == '1') {
+                // Código para administradores
+                echo "<a href=\"#messages\"><i class=\"fa-regular fa-message\"></i></a>";
+                echo "<a href=\"vista-admn.php\"><i class=\"fi fi-rs-users-alt\"></i></a>";
+                echo "<a href=\"#Configuracion\"><i class=\"fi fi-rs-admin-alt\"></i></a>";
+                echo "<button onclick=\"cambiarmodo()\" class=\"btn rounded-fill\"><i id=\"darkmode\" class=\"fi fi-rs-moon-stars\" style=\"color: white;\"></i></button>";
+            }
+        } else {
+            // Redirige a la página de inicio de sesión si el usuario no está autenticado
+            header("Location: login.php");
+            exit();
+        }
+        ?>
     </div>
     <div class="content" data-bs-theme="light">
       <div id="messages">
