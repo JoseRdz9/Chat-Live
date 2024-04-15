@@ -6,6 +6,7 @@ if (isset($_SESSION['unique_id'])) {
 ?>
 
 <?php include_once "header.php"; ?>
+<?php include 'navbar.html'?>
 
 <body>
   <div class="container" id="container">

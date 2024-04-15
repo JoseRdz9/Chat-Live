@@ -1,13 +1,12 @@
 <?php
 session_start();
-include_once "php/config.php";
+include_once "php/conn-vistas.php";
 if (!isset($_SESSION['unique_id'])) {
   header("location: index.php");
   exit(); // Asegura que el script se detenga después de redirigir
 }
 ?>
 
-<?php include ('php/config.php'); ?>
 <?php include_once "header3.php"; ?>
 
 
@@ -79,249 +78,235 @@ if (!isset($_SESSION['unique_id'])) {
 		</div>
 	</div>
 
-	<div id="usuarios" class=" " >
+	<?php
+		
+		include_once "php/conn-vistas.php";
 
-		<div class="row">
+		// Asegúrate de que el usuario esté autenticado y obtén su rol
+		if (isset($_SESSION['unique_id'])) {
+			$user_id = $_SESSION['unique_id'];
+			$sql = "SELECT * FROM users WHERE unique_id = '$user_id'";
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 
-			<div class="col">
-				
-				<!-- MENSAJE DE ALERTA DE OPERACION-->
-				<?php if(isset($_SESSION['mensaje'])){?>
-					<div class="alert alert-<?= $_SESSION['mensaje_tipo'];?> alert-dismissible fade show" role="alert">
-						<?= $_SESSION['mensaje']?>
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				<?php } ?>
-			</div>
+			// Verifica si el usuario tiene un rol de administrador (rol 1)
+			$rol = $row['rol']; // Suponiendo que el campo de la tabla que almacena el rol se llama 'rol'
+		} else {
+			// Si el usuario no está autenticado, redirige a la página de inicio de sesión
+			header("Location: index.php");
+			exit(); // Asegura que el script se detenga después de redirigir
+		}
+	?>
 
-		</div>
+		<!-- Aquí comienza la parte del div #usuarios -->
+		<?php if ($rol == 1): ?>
+		<div id="usuarios" class=" " >
 
-		<div id="crud" class="row" style="margin-top: 25px; margin-right: 10px;">
+			<div class="row">
 
-			<div class="col-12">
-				<h1>Circulo de influencias</h1>
-				<div class="d-flex">
-					<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#FormularioContacto">Agregar</button>
-
-					<!-- Modal -->
-					<div class="modal fade" id="FormularioContacto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar contacto</h1>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<section class="form signup">
-									<div class="modal-body form sign-up">
-										<form action="../php/signup.php" method="POST" enctype="multipart/form-data" autocomplete="off">
-											<input name="fname" class="form-control mb-3" type="text" placeholder="Nombre">
-											<input name="lname" class="form-control mb-3" type="text" placeholder="Apellido">
-											<input name="email" class="form-control mb-3" type="email" placeholder="Correo">
-											<input name="password" class="form-control mb-3" type="password" placeholder="Password">
-											<input name="rol" class="form-control mb-3" type="rol" placeholder="Puesto">
-											<div class="field image">
-												<span>Tu Avatar</span>
-												<input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
-											</div>
-											<hr>
-											<div class="field button">
-												<button id="signup" type="submit" name="submit">Registrarse</buton>
-											</div>
-										</form>
-									</div>
-								</section>
-							</div>
+				<div class="col">
+					
+					<!-- MENSAJE DE ALERTA DE OPERACION-->
+					<?php if(isset($_SESSION['mensaje'])){?>
+						<div class="alert alert-<?= $_SESSION['mensaje_tipo'];?> alert-dismissible fade show" role="alert">
+							<?= $_SESSION['mensaje']?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
-					</div>
-
-					<!-- filtrado y búsqueda -->
-					<form action="vista-admn.php" method="POST">
-						<div class="d-flex">
-
-							<input class="form-control inputBuscar" name="inputBuscar" type="search" placeholder="Buscar">
-							<button class="btn form-control btnBuscar" type="submit" name="btnBuscar">Buscar</button>
-
-							<div class="dropdown">
-								<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filtros</button>
-								<ul class="dropdown-menu">
-									<li>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="0" name="filtroOrden" id="orden_0">
-											<label class="form-check-label" for="orden_0">A-Z</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="1" name="filtroOrden" id="orden_1">
-											<label class="form-check-label" for="orden_1">Z-A</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="-1" name="filtroOrden" id="orden_2" checked>
-											<label class="form-check-label" for="orden_2">X</label>
-										</div>
-									</li>
-									<li>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="0" name="filtroLlamado" id="llamado_0">
-											<label class="form-check-label" for="llamado_0">Sin llamar</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="1" name="filtroLlamado" id="llamado_1">
-											<label class="form-check-label" for="llamado_1">Llamados</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="-1" name="filtroLlamado" id="llamado_2" checked>
-											<label class="form-check-label" for="llamado_2">X</label>
-										</div>
-									</li>
-									<li>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="0" name="filtroContestado" id="contestado_0">
-											<label class="form-check-label" for="contestado_0">Sin contestar</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="1" name="filtroContestado" id="contestado_1">
-											<label class="form-check-label" for="contestado_1">Contestados</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="-1" name="filtroContestado" id="contestado_2" checked>
-											<label class="form-check-label" for="contestado_2">X</label>
-										</div>
-									</li>
-									<li>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="0" name="filtroInteresado" id="interesado_0">
-											<label class="form-check-label" for="interesado_0">No interesados</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="1" name="filtroInteresado" id="interesado_1">
-											<label class="form-check-label" for="interesado_1">Interesados</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" value="-1" name="filtroInteresado" id="interesado_2" checked>
-											<label class="form-check-label" for="interesado_2">X</label>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</form>
-
+					<?php } ?>
 				</div>
-				
+
 			</div>
 
-		</div>
+			<div id="crud" class="row" style="margin-top: 25px; margin-right: 10px;">
+
+				<div class="col-12">
+					<h1>Circulo de influencias</h1>
+					<div class="d-flex">
+						<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#FormularioContacto">Agregar</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="FormularioContacto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar contacto</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<section class="form signup">
+										<div class="modal-body form sign-up">
+											<form action="../php/signup.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+												<input name="fname" class="form-control mb-3" type="text" placeholder="Nombre">
+												<input name="lname" class="form-control mb-3" type="text" placeholder="Apellido">
+												<input name="email" class="form-control mb-3" type="email" placeholder="Correo">
+												<input name="password" class="form-control mb-3" type="password" placeholder="Password">
+												<input name="rol" class="form-control mb-3" type="rol" placeholder="Puesto">
+												<div class="field image">
+													<span>Tu Avatar</span>
+													<input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
+												</div>
+												<hr>
+												<div class="field button">
+													<button id="signup" type="submit" name="submit">Registrarse</buton>
+												</div>
+											</form>
+										</div>
+									</section>
+								</div>
+							</div>
+						</div>
+
+						<!-- filtrado y búsqueda -->
+						<form action="vista-admn.php" method="POST">
+							<div class="d-flex">
+
+								<input class="form-control inputBuscar" name="inputBuscar" type="search" placeholder="Buscar">
+								<button class="btn form-control btnBuscar" type="submit" name="btnBuscar">Buscar</button>
+
+								<div class="dropdown">
+									<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filtros</button>
+									<ul class="dropdown-menu">
+										<li>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" value="0" name="filtroOrden" id="orden_0">
+												<label class="form-check-label" for="orden_0">Puesto 1</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" value="0" name="filtroContestado" id="contestado_0">
+												<label class="form-check-label" for="contestado_0">Puesto 2</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" value="0" name="filtroInteresado" id="interesado_0">
+												<label class="form-check-label" for="interesado_0">Puesto 3</label>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</form>
+
+					</div>
+					
+				</div>
+
+			</div>
 
 
-		<div class="row">
+			<div class="row">
 
-			<div class="col">
-				
-				<div class="card card-body">
-					<table class="table table-hover table-striped">
-						<thead>
-							<tr>
-								<th scope="col"></th>
-								<th scope="col">Nombre</th>
-								<th scope="col">Email</th>
-								<th scope="col">Password</th>
-								<th scope="col">Acciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php						
-							
-								$query = "SELECT * FROM users";
-								if(isset($_POST['btnBuscar'])){
-									$buscar = $_POST['inputBuscar'];
-									$order = intval($_POST['filtroOrden']);
+				<div class="col">
+					
+					<div class="card card-body">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col">Nombre</th>
+									<th scope="col">Email</th>
+									<th scope="col">Password</th>
+									<th scope="col">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php						
 								
-									if(strlen($buscar) >= 1){
-										$query = "SELECT * FROM users WHERE fname LIKE '%$buscar%' OR lname LIKE '%$buscar%' OR email LIKE '%$buscar%'";
-										if($order == 0){
-											$query .= " ORDER BY fname, lname ASC";
-										}else if($order == 1){
-											$query .= " ORDER BY fname DESC, lname DESC";
-										}
-									}else if(strlen($buscar) == 0 AND $order >= 0){
-										$query = "SELECT * FROM users";
-								
-										if($order == 0){
-											$query .= " ORDER BY fname, lname ASC";
-										}else if($order == 1){
-											$query .= " ORDER BY fname DESC, lname DESC";
+									$query = "SELECT * FROM users";
+									if(isset($_POST['btnBuscar'])){
+										$buscar = $_POST['inputBuscar'];
+										$order = intval($_POST['filtroOrden']);
+									
+										if(strlen($buscar) >= 1){
+											$query = "SELECT * FROM users WHERE fname LIKE '%$buscar%' OR lname LIKE '%$buscar%' OR email LIKE '%$buscar%'";
+											if($order == 0){
+												$query .= " ORDER BY fname, lname ASC";
+											}else if($order == 1){
+												$query .= " ORDER BY fname DESC, lname DESC";
+											}
+										}else if(strlen($buscar) == 0 AND $order >= 0){
+											$query = "SELECT * FROM users";
+									
+											if($order == 0){
+												$query .= " ORDER BY fname, lname ASC";
+											}else if($order == 1){
+												$query .= " ORDER BY fname DESC, lname DESC";
+											}
 										}
 									}
-								}
-								
+									
 
-								$resultado = mysqli_query($conn, $query);
-								while($row = mysqli_fetch_assoc($resultado)) {
-										$id = $row['unique_id'];
-									?>
-									<tr data-id="fila_<?php echo $id; ?>">
-										<form action="php/editar.php?id=<?php echo $id; ?>" method="POST">
-											<td>
-												<input type="checkbox">
-											</td>
-											<td>
-												<label class="label_nombres"><?php echo $row['fname']." ".$row['lname']?></label>
-												<div class="d-flex">
-													<input class="form-control input_nombre hidden" type="text" class="form-control" name="Enombre" value="<?php echo $row['fname']; ?>" placeholder="Nombres">
-													<input class="form-control input_apellido1 hidden" type="text" class="form-control" name="Eapellido_1" value="<?php echo $row['lname']; ?>" placeholder="1° Apellido">
-												</div>
-											</td>
-<!--Actualizacion-------------------------------------------------------->
-											<td>
-												<label class="label_telefono"><?php echo $row['email']; ?></label>
-												<input class="form-control input_telefono hidden" type="email" class="form-control" name="Etelefono" value="<?php echo $row['email']; ?>">
-											</td>
-											<td>
-												<label class="label_correo"><?php echo $row['password']; ?></label>
-												<input class="form-control input_correo hidden" type="password" class="form-control" name="Ecorreo" value="<?php echo $row['password']; ?>">
-											</td>
+									$resultado = mysqli_query($conn, $query);
+									while($row = mysqli_fetch_assoc($resultado)) {
+											$id = $row['unique_id'];
+										?>
+										<tr data-id="fila_<?php echo $id; ?>">
+											<form action="php/editar.php?id=<?php echo $id; ?>" method="POST">
+												<td>
+													<input type="checkbox">
+												</td>
+												<td>
+													<label class="label_nombres"><?php echo $row['fname']." ".$row['lname']?></label>
+													<div class="d-flex">
+														<input class="form-control input_nombre hidden" type="text" class="form-control" name="Enombre" value="<?php echo $row['fname']; ?>" placeholder="Nombres">
+														<input class="form-control input_apellido1 hidden" type="text" class="form-control" name="Eapellido_1" value="<?php echo $row['lname']; ?>" placeholder="1° Apellido">
+													</div>
+												</td>
+			<!--Actualizacion-------------------------------------------------------->
+												<td>
+													<label class="label_telefono"><?php echo $row['email']; ?></label>
+													<input class="form-control input_telefono hidden" type="email" class="form-control" name="Etelefono" value="<?php echo $row['email']; ?>">
+												</td>
+												<td>
+													<label class="label_correo"><?php echo $row['password']; ?></label>
+													<input class="form-control input_correo hidden" type="password" class="form-control" name="Ecorreo" value="<?php echo $row['password']; ?>">
+												</td>
 
-<!--Actualizacion------------------------------------------------------------->
-											<td>
-												<div class="d-flex">
-													<input class="btn btn-secondary editar" name="editar" type="button" value="Editar">
-													<input class="btn btn-primary guardar hidden" name="guardar" type="submit" value="Guardar">
-													<input class="btn btn-danger cancelarEditar hidden" name="cancelarEditar" type="button" value="Cancelar">
-													<button type="button" class="btn btn-primary eliminar" data-bs-toggle="modal" data-bs-target="#modalEliminar_<?php echo $id; ?>">Eliminar</button>
-												</div>
-												
+			<!--Actualizacion------------------------------------------------------------->
+												<td>
+													<div class="d-flex">
+														<input class="btn btn-secondary editar" name="editar" type="button" value="Editar">
+														<input class="btn btn-primary guardar hidden" name="guardar" type="submit" value="Guardar">
+														<input class="btn btn-danger cancelarEditar hidden" name="cancelarEditar" type="button" value="Cancelar">
+														<button type="button" class="btn btn-primary eliminar" data-bs-toggle="modal" data-bs-target="#modalEliminar_<?php echo $id; ?>">Eliminar</button>
+													</div>
+													
 
-												<!-- Modal -->
-												<div class="modal fade" id="modalEliminar_<?php echo $id; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar registro</h1>
-																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">
-																<p>¿Esta seguro que desea eliminar el registro?</p>
-															</div>
-															<div class="modal-footer">
-																<a class="btn btn-success confirmarEliminar" name="confirmar" type="button" value="Confirmar" href="php/eliminar.php?id=<?php echo $id; ?>">Confirmar</a>
-																<input class="btn btn-danger cancelarEliminar" data-bs-dismiss="modal" aria-label="Close" name="cancelarEliminar" type="button" value="Cancelar">
+													<!-- Modal -->
+													<div class="modal fade" id="modalEliminar_<?php echo $id; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar registro</h1>
+																	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																</div>
+																<div class="modal-body">
+																	<p>¿Esta seguro que desea eliminar el registro?</p>
+																</div>
+																<div class="modal-footer">
+																	<a class="btn btn-success confirmarEliminar" name="confirmar" type="button" value="Confirmar" href="php/eliminar.php?id=<?php echo $id; ?>">Confirmar</a>
+																	<input class="btn btn-danger cancelarEliminar" data-bs-dismiss="modal" aria-label="Close" name="cancelarEliminar" type="button" value="Cancelar">
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											</td>
-<!---------------------------------------------------------------------------->
-										</form>
-									</tr>
-							<?php } ?>
-						</tbody>
-					</table>
+												</td>
+			<!---------------------------------------------------------------------------->
+											</form>
+										</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+
 				</div>
 
 			</div>
 
 		</div>
+		<?php endif; ?>
 
-	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
