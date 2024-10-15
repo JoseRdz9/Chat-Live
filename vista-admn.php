@@ -1,10 +1,5 @@
 <?php
-session_start();
-include_once "php/conn-vistas.php";
-if (!isset($_SESSION['unique_id'])) {
-  header("location: index.php");
-  exit(); // Asegura que el script se detenga después de redirigir
-}
+
 ?>
 
 <?php include_once "header3.php"; ?>
